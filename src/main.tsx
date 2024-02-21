@@ -18,19 +18,15 @@ const serviceFactory: ChatServiceFactory<IChatService> = (storage, updateState) 
 
 const chatStorage = new BasicStorage({groupIdGenerator, messageIdGenerator});
 
-chatStorage.addConversation(new Conversation({
-    id: '1',
-}))
-chatStorage.setActiveConversation('1');
 chatStorage.addUser(new User({
-    id: 'computer',
-    username: 'komputer',
+    id: 'system',
+    username: 'system',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg',
     presence: new Presence({status: UserStatus.Available})
 }))
 const player = new User({
-    id: 'player',
-    username: 'gracz',
+    id: 'user',
+    username: 'user',
     avatar: 'https://api.dicebear.com/7.x/pixel-art/svg',
     presence: new Presence({status: UserStatus.Available})
 });
@@ -38,14 +34,12 @@ chatStorage.addUser(player);
 chatStorage.setCurrentUser(player);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <ChatProvider serviceFactory={serviceFactory} storage={chatStorage} config={{
-            typingThrottleTime: 250,
-            typingDebounceTime: 900,
-            debounceTyping: true,
-            autoDraft: AutoDraft.Save | AutoDraft.Restore,
-        }}>
-            <App/>
-        </ChatProvider>
-    </React.StrictMode>,
+    <ChatProvider serviceFactory={serviceFactory} storage={chatStorage} config={{
+        typingThrottleTime: 250,
+        typingDebounceTime: 900,
+        debounceTyping: true,
+        autoDraft: AutoDraft.Save | AutoDraft.Restore,
+    }}>
+        <App/>
+    </ChatProvider>
 )
