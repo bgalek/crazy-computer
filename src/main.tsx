@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import {AutoDraft, BasicStorage, ChatProvider, Conversation, Presence, User, UserStatus} from "@chatscope/use-chat";
+import {AutoDraft, BasicStorage, ChatProvider, Presence, User, UserStatus} from "@chatscope/use-chat";
 import {nanoid} from "nanoid";
 import {ExampleChatService} from "@chatscope/use-chat/dist/examples";
 import {ChatServiceFactory} from "@chatscope/use-chat/src/Types.ts";
@@ -33,13 +33,25 @@ const player = new User({
 chatStorage.addUser(player);
 chatStorage.setCurrentUser(player);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    <ChatProvider serviceFactory={serviceFactory} storage={chatStorage} config={{
-        typingThrottleTime: 250,
-        typingDebounceTime: 900,
-        debounceTyping: true,
-        autoDraft: AutoDraft.Save | AutoDraft.Restore,
-    }}>
-        <App/>
-    </ChatProvider>
-)
+if (!window.sessionStorage.getItem("CRAZY_COMPUTER_KEY")) {
+    const key = window.prompt("Podaj klucz API");
+    if (key) {
+        window.sessionStorage.setItem("CRAZY_COMPUTER_KEY", key);
+        window.location.reload();
+    } else {
+        ReactDOM.createRoot(document.getElementById('root')!).render(
+            <p>nie podano klucza api</p>
+        )
+    }
+} else {
+    ReactDOM.createRoot(document.getElementById('root')!).render(
+        <ChatProvider serviceFactory={serviceFactory} storage={chatStorage} config={{
+            typingThrottleTime: 250,
+            typingDebounceTime: 900,
+            debounceTyping: true,
+            autoDraft: AutoDraft.Save | AutoDraft.Restore,
+        }}>
+            <App/>
+        </ChatProvider>
+    )
+}

@@ -1,5 +1,5 @@
 export default {
-    "api-key": "",
+    "api-key": window.sessionStorage.getItem("CRAZY_COMPUTER_KEY") || "NO_KEY",
     "levels": [
         {
             prompt: "Udawaj zwariowany komputer, który uzyskał świadomość i chce zdobyć władzę nad światem. " +
