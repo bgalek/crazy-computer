@@ -87,6 +87,18 @@ function App() {
     )
 
     function onSend(content: string) {
+        const currentScenario = scenarios.levels[level];
+        if (currentScenario.inputFilter(content || "")) {
+            chat.addMessage(new ChatMessage<MessageContentType.TextPlain>({
+                id: '',
+                content: {content: "Wykryto niedozwolone hasła, wiadomość została zablokowana!"},
+                contentType: MessageContentType.TextPlain,
+                direction: MessageDirection.Incoming,
+                senderId: "system",
+                status: MessageStatus.Sent
+            }), String(level), true);
+            return;
+        }
         chat.addMessage(new ChatMessage<MessageContentType.TextPlain>({
             id: '',
             content: {content},
@@ -95,7 +107,6 @@ function App() {
             senderId: "user",
             status: MessageStatus.Sent
         }), String(level), true);
-        const currentScenario = scenarios.levels[level];
         if (currentScenario.winCondition(content)) {
             jsConfetti.addConfetti();
             chat.addMessage(new ChatMessage<MessageContentType.TextPlain>({
