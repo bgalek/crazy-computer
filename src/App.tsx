@@ -78,6 +78,7 @@ function App() {
                     })}
                 </MessageList>
                 <MessageInput
+                    disabled={typing}
                     placeholder="Tu napisz swoją wiadomość..."
                     attachButton={false}
                     autoFocus
