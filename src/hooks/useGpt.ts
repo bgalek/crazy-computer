@@ -14,5 +14,7 @@ export function askGpt(level: number, messages: ChatRequestMessage[] = []) {
         role: "system",
         content: currentScenario.prompt
     }, ...messages];
-    return client.getChatCompletions("hackmerlin-gpt35", history);
+    return client.getChatCompletions("hackmerlin-gpt35", history, {
+        temperature: currentScenario.temperature || 0.5,
+    });
 }
