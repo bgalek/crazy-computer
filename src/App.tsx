@@ -53,7 +53,7 @@ function App() {
             <ChatContainer>
                 <ConversationHeader>
                     <Avatar src={chat.getUser('system')?.avatar} name="Zwariowany Komputer" status="available"/>
-                    <ConversationHeader.Content userName="Zwariowany komputer" info={`Poziom: ${level}`}/>
+                    <ConversationHeader.Content userName="Zwariowany komputer" info={`Poziom: ${level + 1}`}/>
                 </ConversationHeader>
                 <MessageList typingIndicator={typing && <TypingIndicator content="Bot is typing"/>}>
                     {chat.currentMessages.map(messageGroup => {
