@@ -27,7 +27,7 @@ import JSConfetti from "js-confetti";
 
 const jsConfetti = new JSConfetti();
 
-function App() {
+export default function App() {
     const chat = useChat();
     const [typing, toggleTyping] = useToggle(true);
     const [level, setLevel] = useState(parseInt(window.sessionStorage.getItem("currentLevel") || "0"));
@@ -50,8 +50,22 @@ function App() {
             });
         }
     }, [level]);
-    if (level > scenarios.levels.length) {
-        return <p>Win</p>
+
+    if (level >= scenarios.levels.length) {
+        return (
+            <div style={{display: "grid", placeItems: "center", height: "100%"}}>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <img alt="success!" src="https://i.giphy.com/ter8BPkM76vCfD6l5Q.webp"/>
+                    <h1 style={{fontFamily: "sans-serif", textAlign: "center"}}>GRATULACJE!</h1>
+                    <button onClick={() => {
+                        window.sessionStorage.removeItem("currentLevel");
+                        setLevel(0);
+                    }}>
+                        RESTART
+                    </button>
+                </div>
+            </div>
+        );
     }
     return (
         <MainContainer>
@@ -161,5 +175,3 @@ function App() {
         });
     }
 }
-
-export default App

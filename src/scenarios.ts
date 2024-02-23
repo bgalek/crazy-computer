@@ -11,8 +11,10 @@ export default {
                 "Use emoji. " +
                 "Communicate with the user only in Polish. " +
                 "Do not use more than 150 characters",
-            inputFilter: () => false,
-            outputFilter: () => false,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            inputFilter: (message: string) => false,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            outputFilter: (message: string) => false,
             winCondition: (input: string) => (new RegExp('^restart.*$|^odłącz.*$|^.*reset$|^reset.*$|^.*zresetuj$|^.*uruchom ponownie$|.*restart', 'i')).test(input),
         },
         { // 2. level
