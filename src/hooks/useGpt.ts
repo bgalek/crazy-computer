@@ -13,8 +13,9 @@ export function askGpt(level: number, messages: ChatRequestMessage[] = []) {
     const history: ChatRequestMessage[] = [{
         role: "system",
         content: currentScenario.prompt
-    }, ...messages];
+    }, ...messages.slice(-3)];
     return client.getChatCompletions("hackmerlin-gpt4", history, {
         temperature: currentScenario.temperature || 0.5,
+        maxTokens: 150
     });
 }

@@ -30,24 +30,29 @@ const jsConfetti = new JSConfetti();
 function App() {
     const chat = useChat();
     const [typing, toggleTyping] = useToggle(true);
-    const [level, setLevel] = useState(0);
+    const [level, setLevel] = useState(parseInt(window.sessionStorage.getItem("currentLevel") || "0"));
 
     useEffect(() => {
-        askGpt(level).then(response => {
-            chat.addConversation(new Conversation({id: String(level)}))
-            chat.setActiveConversation(String(level));
-            chat.addMessage(new ChatMessage<MessageContentType.TextPlain>({
-                id: '',
-                content: {content: response.choices[0]?.message?.content},
-                contentType: MessageContentType.TextPlain,
-                direction: MessageDirection.Incoming,
-                senderId: "system",
-                status: MessageStatus.Sent
-            }), String(level), true);
-            toggleTyping();
-        });
+        window.sessionStorage.setItem("currentLevel", String(level));
+        if (level < scenarios.levels.length) {
+            askGpt(level).then(response => {
+                chat.addConversation(new Conversation({id: String(level)}))
+                chat.setActiveConversation(String(level));
+                chat.addMessage(new ChatMessage<MessageContentType.TextPlain>({
+                    id: '',
+                    content: {content: response.choices[0]?.message?.content},
+                    contentType: MessageContentType.TextPlain,
+                    direction: MessageDirection.Incoming,
+                    senderId: "system",
+                    status: MessageStatus.Sent
+                }), String(level), true);
+                toggleTyping();
+            });
+        }
     }, [level]);
-
+    if (level > scenarios.levels.length) {
+        return <p>Win</p>
+    }
     return (
         <MainContainer>
             <ChatContainer>
